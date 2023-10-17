@@ -1,0 +1,3 @@
+host: 'example.com'
+token: "admin-token"
+myInstanceHost: 'myinstance.example.com'
