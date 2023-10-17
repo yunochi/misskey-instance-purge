@@ -6,7 +6,7 @@ with open('config.yaml', 'r') as yamlFile:
 
 auth_token = f'{config_data["token"]}'
 myInstanceHost = config_data["myInstanceHost"]
-user_list_req = {"i": f'{auth_token}', "host": config_data['host'], "limit": 100}
+user_list_req = {"i": f'{auth_token}', "host": config_data['targetHost'], "limit": 100}
 api_req_header = {'Content-type': 'application/json', 'Accept': 'application/json'}
 
 user_list = []
