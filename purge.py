@@ -4,14 +4,14 @@ import yaml
 with open('config.yaml', 'r') as yamlFile:
     config_data = yaml.load(yamlFile, Loader=yaml.FullLoader)
 
-auth_token = f'{config_data["token"]}'
+auth_token = config_data["token"]
 myInstanceHost = config_data["myInstanceHost"]
-user_list_req = {"i": f'{auth_token}', "host": config_data['targetHost'], "limit": 100}
+targetHost = config_data['targetHost']
+user_list_req = {"i": f'{auth_token}', "host": targetHost, "limit": 100}
 api_req_header = {'Content-type': 'application/json', 'Accept': 'application/json'}
 
 user_list = []
 user_id_list = []
-
 page = 0
 while True:
     print(f'get user list... {page}')
@@ -28,11 +28,10 @@ while True:
     user_list.extend(res.json())
     user_id_list.extend(list(map(lambda x: x["id"], res.json())))
 
-page = 0
 emoji_id_list = []
 emoji_list = []
-emoji_list_req = {"i": f'{auth_token}', "host": config_data['targetHost'], "limit": 100}
-
+emoji_list_req = {"i": f'{auth_token}', "host": targetHost, "limit": 100}
+page = 0
 while True:
     print(f'get emoji list... {page}')
     if len(emoji_id_list) != 0:
@@ -48,12 +47,12 @@ while True:
     emoji_list.extend(res.json())
     emoji_id_list.extend(list(map(lambda x: x["id"], res.json())))
 
-emoji_list_with_host = list(map(lambda x: [x["name"], x["host"]], emoji_list))
-uid_list_with_url = list(map(lambda x: [x["id"], x["url"]], user_list))
+emoji_list_with_host = list(map(lambda x: {"name": x["name"], "host": x["host"]}, emoji_list))
+uid_list_with_url = list(map(lambda x: {"id": x["id"], "url": x["url"]}, user_list))
 for emoji_with_host in emoji_list_with_host:
-    print(f'emoji: :{emoji_with_host[0]}@{emoji_with_host[1]}:')
+    print(f'emoji: :{emoji_with_host["name"]}@{emoji_with_host["host"]}:')
 for uid_with_url in uid_list_with_url:
-    print(f'user: {uid_with_url[0]} ( {uid_with_url[1]} )')
+    print(f'user: {uid_with_url["id"]} ( {uid_with_url["url"]} )')
 
 print(f'Will DELETE {len(user_id_list)} user(s) and {len(emoji_id_list)} emoji(s)...')
 user_input = input('Are you sure? Enter "yes" in UPPERCASE \n(YES/no)\n')
@@ -70,6 +69,7 @@ for uid in user_id_list:
         print(f'Error to delete {uid}')
     else:
         print(f'User {uid} deleted')
+
 i = 0
 while True:
     emoji_id_chunk = emoji_id_list[i * 10: (i * 10) + 10]
