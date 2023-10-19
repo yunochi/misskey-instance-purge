@@ -1,6 +1,6 @@
 ## misskey Instance user purge tool 
 
-Misskey 에서 특정 인스턴스의 유저를 모두 삭제하는 툴입니다. Admin 권한이 있는 API토큰이 필요합니다. 
+Misskey 에서 특정 인스턴스의 유저와 에모지를 모두 삭제하는 툴입니다. Admin 권한이 있는 API토큰이 필요합니다. 
 
 ### 사용법 
 
